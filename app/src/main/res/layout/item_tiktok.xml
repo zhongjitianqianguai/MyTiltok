@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.example.mytiltok.jzvd.JzvdStdSpeed
+        android:id="@+id/videoplayer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|left"
+        android:layout_marginLeft="12dp"
+        android:layout_marginBottom="48dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/filename"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="\@\终极天谴怪"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/dirname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:lineSpacingExtra="3dp"
+            android:maxWidth="260dp"
+            android:text="点击此处可以选择要播放的文件夹"
+            android:textColor="@android:color/white"
+            android:textSize="19sp" />
+
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/tv_music_name"-->
+        <!--            android:layout_width="120dp"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="5dp"-->
+        <!--            android:drawableLeft="@drawable/tiktok_douyin_icon"-->
+        <!--            android:drawablePadding="5dp"-->
+        <!--            android:ellipsize="marquee"-->
+        <!--            android:marqueeRepeatLimit="marquee_forever"-->
+        <!--            android:singleLine="true"-->
+        <!--            android:text="Mymymind-创作的原声"-->
+        <!--            android:textColor="@android:color/white"-->
+        <!--            android:textSize="14sp" />-->
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom"
+        android:layout_marginRight="12dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <!--            <FrameLayout-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginBottom="8dp"-->
+            <!--                android:background="@drawable/ic_border_white">-->
+
+            <!--                <ImageView-->
+            <!--                    android:id="@+id/iv_avatar"-->
+            <!--                    android:layout_width="50dp"-->
+            <!--                    android:layout_height="50dp"-->
+            <!--                    />-->
+            <!--            </FrameLayout>-->
+
+            <!--            <FrameLayout-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_gravity="center|bottom"-->
+            <!--                android:background="@drawable/ic_circle_red">-->
+
+            <!--                <ImageView-->
+            <!--                    android:layout_width="12dp"-->
+            <!--                    android:layout_height="12dp"-->
+            <!--                    android:background="@mipmap/tiktok_add_star" />-->
+            <!--            </FrameLayout>-->
+
+        </FrameLayout>
+
+        <!--        <TextView-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="25dp"-->
+        <!--            android:drawableTop="@drawable/ic_star_selector"-->
+        <!--            android:drawablePadding="2dp"-->
+        <!--            android:gravity="center"-->
+        <!--            android:text="1.7w"-->
+        <!--            android:textColor="@android:color/white"-->
+        <!--            android:textSize="12sp" />-->
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/tv_comment"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="18dp"-->
+        <!--            android:drawableTop="@drawable/tiktok_comment_normal"-->
+        <!--            android:drawablePadding="2dp"-->
+        <!--            android:gravity="center"-->
+        <!--            android:text="72"-->
+        <!--            android:textColor="@android:color/white"-->
+        <!--            android:textSize="12sp" />-->
+
+        <!--        &lt;!&ndash;        <item name="android:layout_width">wrap_content</item>&ndash;&gt;-->
+        <!--        &lt;!&ndash;        <item name="android:layout_height">wrap_content</item>&ndash;&gt;-->
+        <!--        &lt;!&ndash;        <item name="android:layout_marginTop">15dp</item>&ndash;&gt;-->
+        <!--        &lt;!&ndash;        <item name="android:drawablePadding">2dp</item>&ndash;&gt;-->
+        <!--        &lt;!&ndash;        <item name="android:gravity">center</item>&ndash;&gt;-->
+        <!--        &lt;!&ndash;        <item name="android:textColor">@android:color/white</item>&ndash;&gt;-->
+        <!--        &lt;!&ndash;        <item name="android:textSize">12sp</item>&ndash;&gt;-->
+        <!--        <TextView-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="18dp"-->
+        <!--            android:drawableTop="@mipmap/tiktok_btn_share"-->
+        <!--            android:drawablePadding="2dp"-->
+        <!--            android:gravity="center"-->
+        <!--            android:text="320"-->
+        <!--            android:textColor="@android:color/white"-->
+        <!--            android:textSize="12sp" />-->
+
+        <ImageView
+            android:id="@+id/del"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="38dp"
+            android:layout_marginBottom="58dp"
+            android:background="@android:drawable/ic_menu_delete" />
+    </LinearLayout>
+</FrameLayout>
