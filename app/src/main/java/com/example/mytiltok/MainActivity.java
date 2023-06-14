@@ -91,92 +91,89 @@ public class MainActivity extends AppCompatActivity {
 
                 mCursor.close();
             }
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    isDone = false;
-                    sDirListMap = new HashMap<>();
-                    sDirList = new ArrayList<>();
-                    sUriListMap = new HashMap<>();
-                    mUriList = new ArrayList<>();
-                    sBitMapListMap = new HashMap<>();
-                    mBitMapList = new ArrayList<>();
-                    ContentResolver contentResolver = getContentResolver();
-                    String[] projection = {MediaStore.Video.Thumbnails.DATA};
-                    for (int i = 0; i < MainActivity.video_path.size(); i++) {
-                        String[] index = MainActivity.video_path.get(i).split("/");
-                        String dirname = index[index.length - 2];
-                        List<String> list;
-                        List<Uri> uriList;
-                        List<Bitmap> bitmapList;
-                        if (!sDirListMap.containsKey(dirname)) {
-                            list = new ArrayList();
-                            uriList = new ArrayList<>();
-                            bitmapList = new ArrayList<>();
-                            list.add(MainActivity.video_path.get(i));
-                            uriList.add(MainActivity.video_uri.get(i));
-                            Cursor cursor = contentResolver.query(MainActivity.video_uri.get(i), projection, null, null, null);
-                            if (cursor != null && cursor.moveToFirst()) {
-                                String thumbnailPath = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Thumbnails.DATA));
-                                int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, getResources().getDisplayMetrics());
-                                int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 250, getResources().getDisplayMetrics());
+            new Thread(() -> {
+                isDone = false;
+                sDirListMap = new HashMap<>();
+                sDirList = new ArrayList<>();
+                sUriListMap = new HashMap<>();
+                mUriList = new ArrayList<>();
+                sBitMapListMap = new HashMap<>();
+                mBitMapList = new ArrayList<>();
+                ContentResolver contentResolver = getContentResolver();
+                String[] projection = {MediaStore.Video.Thumbnails.DATA};
+                for (int i = 0; i < MainActivity.video_path.size(); i++) {
+                    String[] index = MainActivity.video_path.get(i).split("/");
+                    String dirname = index[index.length - 2];
+                    List<String> list;
+                    List<Uri> uriList;
+                    List<Bitmap> bitmapList;
+                    if (!sDirListMap.containsKey(dirname)) {
+                        list = new ArrayList();
+                        uriList = new ArrayList<>();
+                        bitmapList = new ArrayList<>();
+                        list.add(MainActivity.video_path.get(i));
+                        uriList.add(MainActivity.video_uri.get(i));
+//                            Cursor cursor = contentResolver.query(MainActivity.video_uri.get(i), projection, null, null, null);
+//                            if (cursor != null && cursor.moveToFirst()) {
+//                                String thumbnailPath = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Thumbnails.DATA));
+//                                int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, getResources().getDisplayMetrics());
+//                                int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 250, getResources().getDisplayMetrics());
+//
+//                                Glide.with(getApplicationContext())
+//                                        .asBitmap()
+//                                        .load(thumbnailPath)
+//                                        .centerCrop()
+//                                        .override(width, height)
+//                                        .into(new SimpleTarget<Bitmap>() {
+//                                            @Override
+//                                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+//                                                // Do something with the loaded and resized bitmap
+//                                                bitmapList.add(resource);
+//                                            }
+//                                        });
+//                            }
+//                            cursor.close();
+                        sDirListMap.put(dirname, list);
+                        sUriListMap.put(dirname, uriList);
+                        sBitMapListMap.put(dirname, bitmapList);
+                        sDirList.add(dirname);
+                    } else {
+                        list = sDirListMap.get(dirname);
+                        uriList = sUriListMap.get(dirname);
+                        bitmapList = sBitMapListMap.get(dirname);
+                        list.add(MainActivity.video_path.get(i));
+                        uriList.add(MainActivity.video_uri.get(i));
 
-                                Glide.with(getApplicationContext())
-                                        .asBitmap()
-                                        .load(thumbnailPath)
-                                        .centerCrop()
-                                        .override(width, height)
-                                        .into(new SimpleTarget<Bitmap>() {
-                                            @Override
-                                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                                                // Do something with the loaded and resized bitmap
-                                                bitmapList.add(resource);
-                                            }
-                                        });
-                            }
-                            cursor.close();
-                            sDirListMap.put(dirname, list);
-                            sUriListMap.put(dirname, uriList);
-                            sBitMapListMap.put(dirname, bitmapList);
-                            sDirList.add(dirname);
-                        } else {
-                            list = sDirListMap.get(dirname);
-                            uriList = sUriListMap.get(dirname);
-                            bitmapList = sBitMapListMap.get(dirname);
-                            list.add(MainActivity.video_path.get(i));
-                            uriList.add(MainActivity.video_uri.get(i));
-
-                            Cursor cursor = contentResolver.query(MainActivity.video_uri.get(i), projection, null, null, null);
-                            if (cursor != null && cursor.moveToFirst()) {
-                                String thumbnailPath = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Thumbnails.DATA));
-                                int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, getResources().getDisplayMetrics());
-                                int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 250, getResources().getDisplayMetrics());
-                                Glide.with(getApplicationContext())
-                                        .asBitmap()
-                                        .load(thumbnailPath)
-                                        .centerCrop()
-                                        .override(width, height)
-                                        .into(new SimpleTarget<Bitmap>() {
-                                            @Override
-                                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                                                // Do something with the loaded and resized bitmap
-                                                bitmapList.add(resource);
-                                            }
-                                        });
-                            }
-                            cursor.close();
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                sDirListMap.replace(dirname, list);
-                                sUriListMap.replace(dirname, uriList);
-                                sBitMapListMap.replace(dirname, bitmapList);
-                            }
+//                            Cursor cursor = contentResolver.query(MainActivity.video_uri.get(i), projection, null, null, null);
+//                            if (cursor != null && cursor.moveToFirst()) {
+//                                String thumbnailPath = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Thumbnails.DATA));
+//                                int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, getResources().getDisplayMetrics());
+//                                int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 250, getResources().getDisplayMetrics());
+//                                Glide.with(getApplicationContext())
+//                                        .asBitmap()
+//                                        .load(thumbnailPath)
+//                                        .centerCrop()
+//                                        .override(width, height)
+//                                        .into(new SimpleTarget<Bitmap>() {
+//                                            @Override
+//                                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+//                                                // Do something with the loaded and resized bitmap
+//                                                bitmapList.add(resource);
+//                                            }
+//                                        });
+//                            }
+//                            cursor.close();
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            sDirListMap.replace(dirname, list);
+                            sUriListMap.replace(dirname, uriList);
+                            sBitMapListMap.replace(dirname, bitmapList);
                         }
                     }
-                    isDone = true;
-                    Looper.prepare();
-                    Toast.makeText(getApplicationContext(),"处理完成,可以选择文件夹了",Toast.LENGTH_LONG).show();
-                    Looper.loop();
                 }
+                isDone = true;
+                Looper.prepare();
+                //Toast.makeText(getApplicationContext(),"处理完成,可以选择文件夹了",Toast.LENGTH_LONG).show();
+                Looper.loop();
             }).start();
             startActivity(new Intent(MainActivity.this, ActivityTikTok.class));
 

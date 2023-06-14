@@ -278,10 +278,10 @@ public class ActivityTikTok extends AppCompatActivity {
                 mDirTextView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (isDone)
+//                        if (isDone)
                             dirListDialog();
-                        else
-                            Toast.makeText(getApplicationContext(), "还未扫描加载完成，请稍后再试", Toast.LENGTH_SHORT).show();
+//                        else
+//                            Toast.makeText(getApplicationContext(), "还未扫描加载完成，请稍后再试", Toast.LENGTH_SHORT).show();
                     }
                 });
             }

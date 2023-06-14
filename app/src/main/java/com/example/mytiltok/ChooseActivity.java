@@ -4,6 +4,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.IntentSenderRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -17,11 +18,15 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.media.MediaMetadataRetriever;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +35,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -232,6 +241,32 @@ public class ChooseActivity extends AppCompatActivity {
         });
         mTextView=findViewById(R.id.choose);
         mTextView.setText("当前文件夹:"+mPath+"(点击可以更换文件夹)");
+        int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, getResources().getDisplayMetrics());
+        int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 250, getResources().getDisplayMetrics());
+        List<Bitmap> bitmapList=new ArrayList<>();
+        System.out.println(MainActivity.sDirListMap.get(mPath).toString());
+        if (MainActivity.sBitMapListMap.get(mPath).size()==0) {
+            Toast.makeText(this, "正在加载缩略图，请稍等，加载完毕后会自动跳转至缩略图界面", Toast.LENGTH_SHORT).show();
+            new Thread(() -> {
+                for (String path : MainActivity.sDirListMap.get(mPath)) {
+                    MediaMetadataRetriever media = new MediaMetadataRetriever();
+                    media.setDataSource(path);
+                    Bitmap bitmap = media.getFrameAtTime();
+                    bitmap = Bitmap.createScaledBitmap(bitmap, width, height, true);
+                    bitmapList.add(bitmap);
+                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    MainActivity.sBitMapListMap.replace(mPath, bitmapList);
+                } else {
+                    MainActivity.sBitMapListMap.put(mPath, bitmapList);
+                }
+                Looper.prepare();
+                Toast.makeText(this, "加载完毕", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(ChooseActivity.this, ChooseActivity.class).putExtra("path", mPath));
+                Looper.loop();
+            }).start();
+        }
+
         mIntentSenderRequestActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartIntentSenderForResult(), result -> {
             Log.println(Log.ASSERT, "recode", String.valueOf(result.getResultCode()));
             if (result.getResultCode() == -1) {
@@ -269,7 +304,7 @@ public class ChooseActivity extends AppCompatActivity {
         GridLayoutManager gridLayoutManager=new GridLayoutManager(this,4);
         mRecyclerView.setLayoutManager(gridLayoutManager);
         if (mBitmapList.size()==0) {
-            Toast.makeText(this, "加载预览图失败，跳转至直接刷视频", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "加载预览图失败，跳转至直接刷视频", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(ChooseActivity.this,ActivityTikTok.class).putExtra("position",0).putExtra("path",mPath));
             finish();
         }
