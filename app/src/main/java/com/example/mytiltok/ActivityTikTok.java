@@ -337,7 +337,8 @@ public class ActivityTikTok extends AppCompatActivity {
                         Log.println(Log.ASSERT,"path!=null size:", String.valueOf(MainActivity.sDirListMap.get(path).size()));
                         MainActivity.sDirListMap.get(path).remove(mCurrentPosition);
                         MainActivity.sUriListMap.get(path).remove(mCurrentPosition);
-                        MainActivity.sBitMapListMap.get(path).remove(mCurrentPosition);
+                        if (MainActivity.sBitMapListMap.get(path).size()!=0)
+                            MainActivity.sBitMapListMap.get(path).remove(mCurrentPosition);
                         Log.println(Log.ASSERT,"path!=null size:", String.valueOf(MainActivity.sDirListMap.get(path).size()));
                     }else {
                         MainActivity.video_path.remove(mAdapter.paths.get(mCurrentPosition));
@@ -352,7 +353,8 @@ public class ActivityTikTok extends AppCompatActivity {
                     if (path!=null) {
                         MainActivity.sDirListMap.get(path).remove(mCurrentPosition);
                         MainActivity.sUriListMap.get(path).remove(mCurrentPosition);
-                        MainActivity.sBitMapListMap.get(path).remove(mCurrentPosition);
+                        if (MainActivity.sBitMapListMap.get(path).size()!=0)
+                            MainActivity.sBitMapListMap.get(path).remove(mCurrentPosition);
                     }else {
                         MainActivity.video_path.remove(mAdapter.paths.get(mCurrentPosition));
                         MainActivity.video_uri.remove(mAdapter.uris.get(mCurrentPosition));

@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,7 +26,9 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,12 +50,16 @@ public class MainActivity extends AppCompatActivity {
     public static boolean isDone;
 
     Button start;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         video_path=new ArrayList<>();
         video_uri=new ArrayList<>();
+        Picasso.get().setIndicatorsEnabled(true); // for debug purposes
+        Picasso.get().setLoggingEnabled(true);
         //checkPermission
         int permission = ActivityCompat.checkSelfPermission(this, "android.permission.WRITE_EXTERNAL_STORAGE");
         if (permission != PackageManager.PERMISSION_GRANTED) {
@@ -138,12 +145,12 @@ public class MainActivity extends AppCompatActivity {
                             bitmapList = sBitMapListMap.get(dirname);
                             list.add(MainActivity.video_path.get(i));
                             uriList.add(MainActivity.video_uri.get(i));
+
                             Cursor cursor = contentResolver.query(MainActivity.video_uri.get(i), projection, null, null, null);
                             if (cursor != null && cursor.moveToFirst()) {
                                 String thumbnailPath = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Thumbnails.DATA));
                                 int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, getResources().getDisplayMetrics());
                                 int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 250, getResources().getDisplayMetrics());
-
                                 Glide.with(getApplicationContext())
                                         .asBitmap()
                                         .load(thumbnailPath)

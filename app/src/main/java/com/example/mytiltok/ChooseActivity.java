@@ -29,6 +29,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -267,6 +268,11 @@ public class ChooseActivity extends AppCompatActivity {
         mUriList=MainActivity.sUriListMap.get(mPath);
         GridLayoutManager gridLayoutManager=new GridLayoutManager(this,4);
         mRecyclerView.setLayoutManager(gridLayoutManager);
+        if (mBitmapList.size()==0) {
+            Toast.makeText(this, "加载预览图失败，跳转至直接刷视频", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(ChooseActivity.this,ActivityTikTok.class).putExtra("position",0).putExtra("path",mPath));
+            finish();
+        }
         updateUI(mUriList,mBitmapList);
     }
 
